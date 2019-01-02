@@ -19,7 +19,7 @@ export var usuarioSchema: Schema = new Schema({
     password: { type: String, required: [true, 'La contraseña es necesaria'] },
     img: { type: String, required: false },
     role: { type: String, required: true, default: 'USER_ROLE', enum: rolesValidos },
-    status: { type: String, required: true, default: 'INACTIVO' },
+    status: { type: String, required: true, default: 'ACTIVO' },
     lingreso: { type: String, required: false },
     creadoX: { type: Schema.Types.ObjectId, ref: 'Usuario'}
 }, { collection: 'usuarios' });

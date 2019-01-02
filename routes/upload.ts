@@ -1,6 +1,6 @@
 // Imports
 import { Router, Request, Response, NextFunction } from 'express';
-import fs from 'fs'
+import fs, { existsSync } from 'fs'
 import fileUpload from 'express-fileupload';
 
 // Modelos
@@ -61,6 +61,18 @@ uploadRoutes.post('/:tipo/:id', (req: Request, res: Response, next: NextFunction
                 ok: false,
                 mensaje: 'Error al mover archivo',
                 err: err
+            });
+        }
+
+        if (!existsSync(path) ) {
+            fs.mkdir(path, (err: any) => {
+                if ( err ) {
+                    return res.status(500).json({
+                        ok: false,
+                        mensaje: 'Error al crear directorio',
+                        err: err
+                    });
+                }
             });
         }
 
