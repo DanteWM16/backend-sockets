@@ -1,15 +1,16 @@
-import { Usuario } from './usuario';
+import { IUsuario } from '../interfaces/usuario';
 
 export class UsuariosLista {
 
-    private lista: Usuario[] = [];
+    private lista: IUsuario[] = [];
 
     constructor() {
 
     }
 
     // Agregar un usuario
-    public agregar( usuario: Usuario ) {
+    public agregar( usuario: IUsuario, id : string ) {
+        usuario.socketid = id;
         this.lista.push( usuario );
         console.log( this.lista );
         return usuario;
@@ -34,8 +35,8 @@ export class UsuariosLista {
     }
 
     public getUsuario( id: string ) {
-        return this.lista.find( usuario => {
-            return usuario.id === id;
+        return this.lista.find( (usuario: IUsuario) => {
+            return usuario.socketid === id;
         });
     }
 
@@ -50,7 +51,7 @@ export class UsuariosLista {
     public borrarUsuario( id: string) {
         const tempUsuario = this.getUsuario( id );
         this.lista = this.lista.filter( usuario => {
-            return usuario.id !== id;
+            return usuario.socketid !== id;
         });
 
         return tempUsuario;

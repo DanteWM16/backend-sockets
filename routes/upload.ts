@@ -53,7 +53,7 @@ uploadRoutes.post('/:tipo/:id', (req: Request, res: Response, next: NextFunction
     const nombreArchivo = `${ id }-${ new Date().getMilliseconds() }.${ extensionArchivo }`;
 
     // Mover archivo al path predeterminado
-    const path = `./uploads/${ tipo }/${ nombreArchivo }`;
+    const path = `./dist/uploads/${ tipo }/${ nombreArchivo }`;
 
     archivo.mv(path, (err: any) => {
         if ( err ) {
@@ -90,7 +90,7 @@ function subirPorTipo(tipo: string, id: string, nombreArchivo: string, res: any)
             }
             
             // Si existe una imagen de usuario, la reemplaza
-            const pathViejo = './uploads/usuarios/' + usuario.img;
+            const pathViejo = './dist/uploads/usuarios/' + usuario.img;
 
             if ( fs.existsSync(pathViejo) ) {
                 fs.unlink(pathViejo, (err) => {

@@ -6,8 +6,10 @@ import { Usuario } from '../clases/usuario';
 export const usuariosConectados = new UsuariosLista();
 
 export const conectarCliente = ( cliente: Socket, io: socketIO.Server ) => {
-    const usuario = new Usuario( cliente.id );
-    usuariosConectados.agregar( usuario );
+    console.log('Usuario ' + cliente.id + ' conectado');
+    io.to(cliente.id).emit('logueate-usuario');
+    // const usuario = new Usuario( cliente.id );
+    // usuariosConectados.agregar( usuario );
 }
 
 export const desconectar = ( cliente: Socket, io: socketIO.Server) => {
@@ -30,12 +32,14 @@ export const mensaje = ( cliente: Socket, io: socketIO.Server ) => {
 export const configurarUsuario = ( cliente: Socket, io: socketIO.Server ) => {
     cliente.on('configurar-usuario', (payload, callback: Function ) => {
         
-        usuariosConectados.actualizarNombre( cliente.id, payload.nombre );
+        //usuariosConectados.actualizarNombre( cliente.id, payload.nombre );
+       usuariosConectados.agregar( payload, cliente.id );
+       io.to(cliente.id).emit('usuario-logueado');
         io.emit('usuarios-activos', usuariosConectados.getLista() );
 
         callback({
             ok: true,
-            mensaje: `Usuario ${ payload.nombre }, configurado`
+            mensaje: `Usuario ${ cliente.id }, configurado`
         });
     });
 }

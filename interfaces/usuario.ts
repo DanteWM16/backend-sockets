@@ -4,10 +4,11 @@ export interface IUsuario {
     apellidoM: string,
     email: string,
     password: string,
-    fcreate: string
+    fcreate: string,
     img?: string,
     role?: string,
     status?: string,
     lingreso?: string,
-    creadoX?: string
+    creadoX?: string,
+    socketid?: string
 }

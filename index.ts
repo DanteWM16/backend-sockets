@@ -9,18 +9,20 @@ import router from './routes/router';
 import usuarioRoutes from './routes/usuario';
 import loginRoutes from './routes/login';
 import uploadRoutes from './routes/upload';
+import imageRoutes from './routes/image';
 
 
 const server = Server.instance;
 
 // BodyParser
-server.app.use( bodyParser.urlencoded({extended:true}) );
+server.app.use( bodyParser.urlencoded({extended: true}) );
 server.app.use( bodyParser.json());
 
 // CORS
 server.app.use( cors({ origin: true, credentials: true }) );
 
 // Rutas de servicios
+server.app.use('/img', imageRoutes);
 server.app.use('/upload', uploadRoutes);
 server.app.use('/login', loginRoutes);
 server.app.use('/usuario', usuarioRoutes);
