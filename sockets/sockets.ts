@@ -2,6 +2,7 @@ import { Socket } from 'socket.io';
 import socketIO from 'socket.io';
 import { UsuariosLista } from '../clases/usuarios-lista';
 import { Usuario } from '../clases/usuario';
+import { IUsuario } from '../interfaces/usuario';
 
 export const usuariosConectados = new UsuariosLista();
 
@@ -12,10 +13,12 @@ export const conectarCliente = ( cliente: Socket, io: socketIO.Server ) => {
     // usuariosConectados.agregar( usuario );
 }
 
+// Desconectar usuario
 export const desconectar = ( cliente: Socket, io: socketIO.Server) => {
     cliente.on('disconnect', () => {
         usuariosConectados.borrarUsuario( cliente.id );
         io.emit('usuarios-activos', usuariosConectados.getLista() );
+        console.log('Usuario desconectado ', cliente.id);
     });
 }
 
@@ -30,8 +33,16 @@ export const mensaje = ( cliente: Socket, io: socketIO.Server ) => {
 
 // Configurar nombre de usuario
 export const configurarUsuario = ( cliente: Socket, io: socketIO.Server ) => {
-    cliente.on('configurar-usuario', (payload, callback: Function ) => {
-        
+    cliente.on('configurar-usuario', (payload: IUsuario, callback: Function ) => {
+
+        let grupo: string;
+
+        if ( payload.grupo ) {
+            grupo = payload.grupo;
+            cliente.join(grupo);
+
+            console.log('Usuario conectado al grupo: ', grupo);
+        }
         //usuariosConectados.actualizarNombre( cliente.id, payload.nombre );
        usuariosConectados.agregar( payload, cliente.id );
        io.to(cliente.id).emit('usuario-logueado');

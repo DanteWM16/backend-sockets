@@ -11,6 +11,11 @@ const rolesValidos = {
     message: '{VALUE} no es un rol permitido'
 };
 
+const gruposValidos = {
+    values: ['GLOBAL', 'ADMIN', 'USUARIOS'],
+    message: '{VALUE} no es un grupo permitido'
+};
+
 export var usuarioSchema: Schema = new Schema({
     nombre: { type: String, required: [true, 'El nombre es necesario'] },
     apellidoP: { type: String, required: [true, 'Los apellidos son necesarios'] },
@@ -20,6 +25,7 @@ export var usuarioSchema: Schema = new Schema({
     img: { type: String, required: false },
     role: { type: String, required: true, default: 'USER_ROLE', enum: rolesValidos },
     status: { type: String, required: true, default: 'ACTIVO' },
+    grupo: { type: String, default: 'GLOBAL' },
     lingreso: { type: String, required: false },
     creadoX: { type: Schema.Types.ObjectId, ref: 'Usuario'}
 }, { collection: 'usuarios' });

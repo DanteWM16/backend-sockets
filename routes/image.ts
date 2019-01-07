@@ -17,14 +17,9 @@ imageRoutes.get('/:tipo/:img', (req: Request, res: Response) => {
 
     if ( fs.existsSync(pathImagen) ) {
         res.sendFile(pathImagen)
-        //res.json(pathImagen);
     } else {
         var pathNoImagen = path.resolve(__dirname, `../assets/no-img.jpg`);
-        //res.sendFile(pathNoImagen);
-        res.json({
-            imagen: pathImagen,
-            noimagen: pathNoImagen
-        });
+        res.sendFile(pathNoImagen);
     }
 });
 

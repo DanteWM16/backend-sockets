@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import { Usuario } from '../modelos/usuario';
-import jwt from 'jsonwebtoken';
+import jwd from 'jsonwebtoken';
 import { SEED } from '../global/enviroment';
 
 const loginRoutes = Router();
@@ -52,7 +52,7 @@ loginRoutes.post('/', (req: Request, res: Response ) => {
                 console.log('error en la actualizacion de ultima conexion');
             }
 
-            const token = jwt.sign({ usuario: usuarioDBA }, SEED, { expiresIn: 14440} );
+            const token = jwd.sign({ usuario: usuarioDBA }, SEED, { expiresIn: 14400} );
 
             usuarioDBA.password = 'XD';
 
@@ -60,11 +60,42 @@ loginRoutes.post('/', (req: Request, res: Response ) => {
                 ok: true,
                 usuario: usuarioDB,
                 token: token,
-                id: usuarioDB._id
+                id: usuarioDB._id,
+                menu: obtenerMenu(usuarioDB.role)
             });
         });
 
     });
 });
+
+function obtenerMenu(ROLE: any) {
+    var menu = [{
+        titulo: 'Principal',
+        icono: 'zmdi zmdi-dns zmdi-hc-fw',
+        submenu: [
+            { titulo: 'Dashboard', url: '/dashboard' },
+            // { titulo: 'Configuraciones', url: '/configuraciones' },
+            { titulo: 'Seguimiento', url: '/seguimiento' },
+            { titulo: 'Logistica', url: '/logistica' }
+        ]
+    },
+    {
+        titulo: 'Mantenimiento',
+        icono: 'zmdi zmdi-wrench zmdi-hc-fw',
+        submenu: [
+            // { titulo: 'Usuarios', url: '/usuarios' },
+            { titulo: 'Comandantes', url: '/comandantes' },
+            { titulo: 'Bases de operaciones', url: '/bo' }
+        ]
+    }
+];
+
+if (ROLE === 'ADMIN_ROLE') {
+    menu[1].submenu.push({ titulo: 'Usuarios', url: '/usuarios' });
+}
+
+
+return menu;
+}
 
 export default loginRoutes;

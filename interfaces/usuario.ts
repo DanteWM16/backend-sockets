@@ -7,6 +7,7 @@ export interface IUsuario {
     fcreate: string,
     img?: string,
     role?: string,
+    grupo?: string,
     status?: string,
     lingreso?: string,
     creadoX?: string,

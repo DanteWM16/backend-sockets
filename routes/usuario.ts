@@ -27,7 +27,7 @@ usuarioRoutes.get('/:status/:desde?/:limit?', verificaToken, (req: Request, res:
 
     var status = req.params.status.toUpperCase();
 
-    Usuario.find({ status: status }, 'nombre apellidoP apellidoM email img role')
+    Usuario.find({ status: status }, 'nombre apellidoP apellidoM email img role grupo')
             .skip(desde)
             .limit(limit)
             .exec( (err, usuarios) => {
@@ -66,6 +66,8 @@ usuarioRoutes.post('/', verificaToken, (req: Request, res: Response) => {
 
     const imgPath = path.resolve(__dirname, `../assets/no-img.jpg`);
 
+    console.log(req.headers.authorization);
+
     const admin = req.body.usuario;
 
     if ( admin.role !== 'ADMIN_ROLE' ) {
@@ -81,8 +83,8 @@ usuarioRoutes.post('/', verificaToken, (req: Request, res: Response) => {
         apellidoM: body.apellidoM.toUpperCase(),
         email: body.email.toLowerCase(),
         password: bcrypt.hashSync(body.password, 10),
-        img: imgPath,
         role: body.role,
+        grupo: body.grupo,
         creadoX: admin._id
     });
 
@@ -113,6 +115,7 @@ usuarioRoutes.put('/:id', verificaToken, (req: Request, res: Response) => {
     const body = req.body;
     const admin = req.body.usuario;
 
+    console.log(admin._id, id);
     if ( admin._id !== id ) {
         if ( admin.role !== 'ADMIN_ROLE' ) {
             return res.status(401).json({
@@ -138,9 +141,14 @@ usuarioRoutes.put('/:id', verificaToken, (req: Request, res: Response) => {
             });
         }
 
+        if (usuario.email !== body.email) {
+            usuario.email = body.email;
+        }
+        
         usuario.nombre = body.nombre.toUpperCase();
         usuario.apellidoP = body.apellidoP.toUpperCase();
         usuario.apellidoM = body.apellidoM.toUpperCase();
+        
 
         usuario.save((err, usuarioGuardado) => {
             if ( err ) {

@@ -1,4 +1,5 @@
 import { IUsuario } from '../interfaces/usuario';
+import { Usuario } from '../modelos/usuario';
 
 export class UsuariosLista {
 
@@ -10,6 +11,7 @@ export class UsuariosLista {
 
     // Agregar un usuario
     public agregar( usuario: IUsuario, id : string ) {
+        
         usuario.socketid = id;
         this.lista.push( usuario );
         console.log( this.lista );
@@ -19,7 +21,7 @@ export class UsuariosLista {
     // Actualizar usuario
     public actualizarNombre( id: string, nombre: string ) {
         for ( let usuario of this.lista ) {
-            if ( usuario.id === id ) {
+            if ( usuario.socketid === id ) {
                 usuario.nombre = nombre;
                 break;
             }
@@ -41,11 +43,11 @@ export class UsuariosLista {
     }
 
     // Obtener usuarios en una sala en particular
-    public getUsuariosEnSala( sala: string ) {
-        return this.lista.filter( usuario => {
-            return usuario.sala === sala;
-        });
-    }
+    // public getUsuariosEnSala( sala: string ) {
+    //     return this.lista.filter( usuario => {
+    //         return usuario.sala === sala;
+    //     });
+    // }
 
     // Borrar un usuario
     public borrarUsuario( id: string) {
@@ -53,6 +55,8 @@ export class UsuariosLista {
         this.lista = this.lista.filter( usuario => {
             return usuario.socketid !== id;
         });
+
+        console.log(this.lista);
 
         return tempUsuario;
     }
