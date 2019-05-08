@@ -18,7 +18,7 @@
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "jsonwebtoken": "^8.4.0",
-    "mongoose": "^5.4.1",
+    "mongoose": "^5.4.22",
     "mongoose-unique-validator": "^2.0.2",
     "socket.io": "^2.2.0"
   },

@@ -1,5 +1,4 @@
 import { IUsuario } from '../interfaces/usuario';
-import { Usuario } from '../modelos/usuario';
 
 export class UsuariosLista {
 
@@ -41,13 +40,6 @@ export class UsuariosLista {
             return usuario.socketid === id;
         });
     }
-
-    // Obtener usuarios en una sala en particular
-    // public getUsuariosEnSala( sala: string ) {
-    //     return this.lista.filter( usuario => {
-    //         return usuario.sala === sala;
-    //     });
-    // }
 
     // Borrar un usuario
     public borrarUsuario( id: string) {

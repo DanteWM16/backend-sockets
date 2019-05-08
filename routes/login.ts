@@ -25,7 +25,7 @@ loginRoutes.post('/', (req: Request, res: Response ) => {
         if ( !usuarioDB ) {
             return res.status(400).json({
                 ok: false,
-                mensaje: 'credenciales incorrectas - email',
+                mensaje: 'credenciales incorrectas',
                 err: err
             });
         }
@@ -40,7 +40,7 @@ loginRoutes.post('/', (req: Request, res: Response ) => {
         if ( !bcrypt.compareSync( body.password, usuarioDB.password ) ) {
             return res.status(400).json({
                 ok: false,
-                mensaje: 'credenciales incorrectas - password',
+                mensaje: 'credenciales incorrectas',
                 err: err
             });
         }
@@ -83,9 +83,8 @@ function obtenerMenu(ROLE: any) {
         titulo: 'Mantenimiento',
         icono: 'zmdi zmdi-wrench zmdi-hc-fw',
         submenu: [
-            // { titulo: 'Usuarios', url: '/usuarios' },
-            { titulo: 'Comandantes', url: '/comandantes' },
-            { titulo: 'Bases de operaciones', url: '/bo' }
+            { titulo: 'Personal', url: '/personal' },
+            { titulo: 'Servicios', url: '/servicios' }
         ]
     }
 ];

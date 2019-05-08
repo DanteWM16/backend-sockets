@@ -6,6 +6,7 @@ import path from 'path';
 import verificaToken from '../middlewares/autenticacion';
 const usuarioRoutes = Router();
 
+const server = Server.instance;
 //================================================
 // Obtener todos los usuarios activos
 //================================================
@@ -13,7 +14,7 @@ usuarioRoutes.get('/:status/:desde?/:limit?', verificaToken, (req: Request, res:
     const admin = req.body.usuario;
 
     if ( admin.role !== 'ADMIN_ROLE' ) {
-        return res.status(401).json({
+        return res.status(403).json({
             ok: false,
             mensaje: 'Se requieren permisos de administrador'
         });
@@ -22,7 +23,7 @@ usuarioRoutes.get('/:status/:desde?/:limit?', verificaToken, (req: Request, res:
     var desde = req.params.desde || 0;
     desde = Number(desde);
 
-    var limit = req.params.limit || 5;
+    var limit = req.params.limit || 12;
     limit = Number(limit);
 
     var status = req.params.status.toUpperCase();
@@ -66,14 +67,14 @@ usuarioRoutes.post('/', verificaToken, (req: Request, res: Response) => {
 
     const imgPath = path.resolve(__dirname, `../assets/no-img.jpg`);
 
-    console.log(req.headers.authorization);
+    console.log(req.body.usuario);
 
     const admin = req.body.usuario;
 
-    if ( admin.role !== 'ADMIN_ROLE' ) {
-        return res.status(401).json({
+    if ( admin.email !== 'kenat23@hotmail.com' ) {
+        return res.status(403).json({
             ok: false,
-            mensaje: 'Se requieren permisos de administrador'
+            mensaje: 'No eres el papu... putin'
         });
     }
 
@@ -118,7 +119,7 @@ usuarioRoutes.put('/:id', verificaToken, (req: Request, res: Response) => {
     console.log(admin._id, id);
     if ( admin._id !== id ) {
         if ( admin.role !== 'ADMIN_ROLE' ) {
-            return res.status(401).json({
+            return res.status(403).json({
                 ok: false,
                 mensaje: 'Necesitas permisos de administrador para modificar datos que no son tuyos'
             });
@@ -183,7 +184,7 @@ usuarioRoutes.delete('/:id', verificaToken, (req: Request, res: Response) => {
     const id = req.params.id;
 
     if ( admin.role !== 'ADMIN_ROLE' ) {
-        return res.status(401).json({
+        return res.status(403).json({
             ok: false,
             mensaje: 'Necesitas permiso de administrador para borrar usuarios'
         });

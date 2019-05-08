@@ -10,6 +10,7 @@ import usuarioRoutes from './routes/usuario';
 import loginRoutes from './routes/login';
 import uploadRoutes from './routes/upload';
 import imageRoutes from './routes/image';
+import chatRoutes from './routes/chat';
 
 
 const server = Server.instance;
@@ -26,6 +27,7 @@ server.app.use('/img', imageRoutes);
 server.app.use('/upload', uploadRoutes);
 server.app.use('/login', loginRoutes);
 server.app.use('/usuario', usuarioRoutes);
+server.app.use('/chat', chatRoutes);
 server.app.use('/', router);
 
 // Conexión a base de datos mongoDB
